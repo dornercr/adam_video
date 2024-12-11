@@ -19,6 +19,10 @@ const pageInfo = document.getElementById('pageInfo');
 const prevPageBtn = document.getElementById('prevPage');
 const nextPageBtn = document.getElementById('nextPage');
 
+// Modal elements for video playback
+const videoModal = document.getElementById('videoModal');
+const videoIframe = document.getElementById('videoIframe');
+
 // Event listeners
 document.addEventListener('DOMContentLoaded', initializeApp);
 darkModeToggle.addEventListener('change', toggleDarkMode);
@@ -31,6 +35,24 @@ nextPageBtn.addEventListener('click', () => changePage(1));
 const debouncedSearch = debounce(searchArticles, 300);
 topicSearch.addEventListener('input', debouncedSearch);
 ilrSelect.addEventListener('change', debouncedSearch);
+
+/**
+ * Converts a number of seconds into an HH:MM:SS format string.
+ * @param {string|number} seconds - The duration in seconds.
+ * @returns {string} - The duration in HH:MM:SS format.
+ */
+function convertSecondsToHHMMSS(seconds) {
+    const totalSeconds = parseFloat(seconds);
+    if (isNaN(totalSeconds) || totalSeconds < 0) return '00:00:00';
+    
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const secs = Math.floor(totalSeconds % 60);
+
+    return [hours, minutes, secs]
+        .map(val => String(val).padStart(2, '0'))
+        .join(':');
+}
 
 /**
  * Initializes the application by loading available languages and setting dark mode preferences.
@@ -114,13 +136,15 @@ function loadLanguageData() {
         .then(results => {
             // Process and normalize articles
             articles = results.flatMap(result => result.data.map(article => ({
-                ...article,
-                title: article.title || '',
-                summary: article.summary || '',
-                translated_summary: article.translated_summary || article.translated || '',
+                Title: article.Title || '',
+                URL: article.URL || '',
+                text: article.text || '',
+                // Convert transcript length from seconds to HH:MM:SS
+                transcript_length: convertSecondsToHHMMSS(article.transcript_length || ''),
+                transcript_added: article.transcript_added || '',
                 ilr_quantized: normalizeILRLevel(article.ilr_quantized),
                 ilr_range: article.ilr_range || '',
-                link: article.link || '',
+                ilr_regressed: article.ilr_regressed || '',
                 id: article.id || generateId()
             })));
             populateILRDropdown();
@@ -188,21 +212,17 @@ function searchArticles() {
     const lowRange = parseFloat(document.getElementById('lowRange').value);
     const highRange = parseFloat(document.getElementById('highRange').value);
 
-    console.log("Topic:", topic, "Selected ILR:", selectedILR, "Low Range:", lowRange, "High Range:", highRange);
-
     filteredArticles = articles.filter(article => {
-        const titleMatch = article.title.toLowerCase().includes(topic);
-        const summaryMatch = article.summary.toLowerCase().includes(topic);
-        const translatedSummaryMatch = article.translated_summary.toLowerCase().includes(topic);
+        const titleMatch = article.Title.toLowerCase().includes(topic);
+        const textMatch = article.text.toLowerCase().includes(topic);
 
-        // Start by checking ILR quantized match
+        // Check ILR quantized match
         let ilrMatch = !selectedILR || article.ilr_quantized === selectedILR;
 
         // Parse article ilr_range
         if (article.ilr_range) {
             let parsedRange;
             try {
-                // Try parsing as JSON
                 parsedRange = JSON.parse(article.ilr_range);
             } catch (err) {
                 // If that fails, try comma-separated
@@ -217,7 +237,6 @@ function searchArticles() {
                 if (!isNaN(low) && !isNaN(high)) {
                     // Apply user range filters if provided
                     if (!isNaN(lowRange) && !isNaN(highRange)) {
-                        // Check if the article fits inside the user's specified range
                         ilrMatch = ilrMatch && (low >= lowRange && high <= highRange);
                     } else if (!isNaN(lowRange)) {
                         ilrMatch = ilrMatch && (low >= lowRange);
@@ -228,20 +247,7 @@ function searchArticles() {
             }
         }
 
-        return (topic === "" || titleMatch || summaryMatch || translatedSummaryMatch) && ilrMatch;
-    });
-
-    console.log("Filtered Articles Count:", filteredArticles.length);
-    console.log("Filtered Articles:", filteredArticles);
-
-    // Sort filteredArticles: Articles with translated_summary first
-    filteredArticles.sort((a, b) => {
-        const aHasTranslation = a.translated_summary && a.translated_summary.trim() !== "";
-        const bHasTranslation = b.translated_summary && b.translated_summary.trim() !== "";
-
-        if (aHasTranslation && !bHasTranslation) return -1;
-        if (!aHasTranslation && bHasTranslation) return 1;
-        return 0;
+        return (topic === "" || titleMatch || textMatch) && ilrMatch;
     });
 
     currentPage = 1; 
@@ -289,7 +295,7 @@ function formatILRRange(range) {
  * Truncates a given text to the specified number of words.
  */
 function truncateText(text, wordLimit) {
-    if (!text) return 'No translated summary available';
+    if (!text) return 'No text available';
     const words = text.trim().split(/\s+/);
     if (words.length <= wordLimit) {
         return text;
@@ -298,7 +304,44 @@ function truncateText(text, wordLimit) {
 }
 
 /**
- * Displays the search results with pagination and truncated summaries.
+ * Extracts a YouTube Video ID from a URL.
+ */
+function extractYouTubeID(url) {
+    try {
+        const parsed = new URL(url);
+        const hostname = parsed.hostname.toLowerCase();
+        if (hostname.includes('youtube.com')) {
+            return parsed.searchParams.get('v') || '';
+        } else if (hostname === 'youtu.be') {
+            return parsed.pathname.slice(1);
+        }
+    } catch (e) {
+        console.error("Invalid URL:", url);
+    }
+    return '';
+}
+
+// Reset video when modal hides
+if (videoModal && videoIframe) {
+    videoModal.addEventListener('hide.bs.modal', () => {
+        videoIframe.src = "";
+    });
+}
+
+/**
+ * Plays a YouTube video in the modal.
+ * @param {string} videoID - The YouTube video ID
+ */
+function playVideo(videoID) {
+    if (!videoModal || !videoIframe || !videoID) return;
+    const embedURL = `https://www.youtube.com/embed/${encodeURIComponent(videoID)}?autoplay=1`;
+    videoIframe.src = embedURL;
+    const bootstrapModal = new bootstrap.Modal(videoModal);
+    bootstrapModal.show();
+}
+
+/**
+ * Displays the search results with pagination and truncated text.
  */
 function displayResults() {
     const startIndex = (currentPage - 1) * resultsPerPage;
@@ -315,49 +358,79 @@ function displayResults() {
     const selectedLanguage = languageSelect.options[languageSelect.selectedIndex]?.textContent || '';
 
     paginatedResults.forEach(article => {
-        if (!article.title) return;
+        if (!article.Title) return;
         const ilrRangeDisplay = formatILRRange(article.ilr_range);
 
-        const isArabicTitle = /[\u0600-\u06FF]/.test(article.title);
-        const isArabicSummary = /[\u0600-\u06FF]/.test(article.summary);
-        const isArabicTranslatedSummary = /[\u0600-\u06FF]/.test(article.translated_summary);
+        const isArabicTitle = /[\u0600-\u06FF]/.test(article.Title);
+        const isArabicText = /[\u0600-\u06FF]/.test(article.text);
 
-        const truncatedTranslatedSummary = truncateText(article.translated_summary, 200);
+        const truncatedText = truncateText(article.text, 200);
+
+        // Check if URL is a YouTube link and get the video ID
+        let thumbnailHTML = '';
+        let playButtonHTML = ''; 
+        if (article.URL) {
+            const videoID = extractYouTubeID(article.URL);
+            if (videoID) {
+                // Make thumbnail clickable
+                const thumbnailURL = `https://img.youtube.com/vi/${videoID}/hqdefault.jpg`;
+                thumbnailHTML = `
+                    <img src="${sanitizeURL(thumbnailURL)}" 
+                         alt="Video Thumbnail" 
+                         class="img-fluid mb-3" 
+                         style="cursor:pointer;" 
+                         onclick="playVideo('${sanitizeHTML(videoID)}')"
+                    />
+                `;
+                
+                // If you still want a play button separately:
+                playButtonHTML = `
+                    <button class="btn btn-sm btn-outline-success ms-2" onclick="playVideo('${sanitizeHTML(videoID)}')">
+                        Play Video
+                    </button>
+                `;
+            }
+        }
 
         const articleDiv = document.createElement('div');
         articleDiv.className = 'col-md-6 mb-4';
         articleDiv.innerHTML = `
             <div class="card h-100">
                 <div class="card-body">
+                    ${thumbnailHTML}
                     <span class="badge ${article.ilr_quantized !== 'N/A' ? 'bg-primary' : 'bg-secondary'} ilr-badge">
                         ILR ${article.ilr_quantized || 'N/A'}
                     </span>
                     <h5 class="card-title" style="${isArabicTitle ? 'text-align: right; direction: rtl;' : ''}">
-                        ${sanitizeHTML(article.title)}
+                        ${sanitizeHTML(article.Title)}
                     </h5>
                     <h6 class="card-subtitle mb-2 text-muted">${sanitizeHTML(selectedLanguage)}</h6>
-                    <p class="card-text" style="${isArabicSummary ? 'text-align: right; direction: rtl;' : ''}">
-                        ${sanitizeHTML(article.summary) || 'No summary available'}
+                    <p class="card-text" style="${isArabicText ? 'text-align: right; direction: rtl;' : ''}">
+                        ${sanitizeHTML(truncatedText)}
                     </p>
                     <p class="card-text">
                         <strong>ILR Range:</strong> ${sanitizeHTML(ilrRangeDisplay)}
                     </p>
-                    <div class="mt-3">
-                        <h6 class="card-subtitle mb-2 text-muted">Translated Summary</h6>
-                        <p class="card-text" style="${isArabicTranslatedSummary ? 'text-align: right; direction: rtl;' : ''}">
-                            ${sanitizeHTML(truncatedTranslatedSummary)}
-                        </p>
-                    </div>
+                    <p class="card-text">
+                        <strong>Transcript Length:</strong> ${sanitizeHTML(article.transcript_length)}
+                    </p>
+                    <p class="card-text">
+                        <strong>Transcript Added:</strong> ${sanitizeHTML(article.transcript_added)}
+                    </p>
+                    <p class="card-text">
+                        <strong>ILR Regressed:</strong> ${sanitizeHTML(article.ilr_regressed)}
+                    </p>
                 </div>
                 <div class="card-footer bg-transparent border-top-0">
-                    ${article.link ? 
-                        `<a href="${sanitizeURL(article.link)}" class="btn btn-sm btn-outline-primary" target="_blank">
-                            Read Full Article
+                    ${article.URL ? 
+                        `<a href="${sanitizeURL(article.URL)}" class="btn btn-sm btn-outline-primary" target="_blank">
+                            Open URL
                         </a>` : ''
                     }
                     <button class="btn btn-sm btn-outline-secondary ms-2" onclick="saveForLater('${sanitizeHTML(article.id)}')">
                         Save for Later
                     </button>
+                    ${playButtonHTML}
                 </div>
             </div>
         `;

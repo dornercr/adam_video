@@ -1,94 +1,9 @@
+
 {
-  "arabic": [
-    "ILR_CSVs/arabic_news_articles_with_ilr_7_19_24_part1.csv",
-    "ILR_CSVs/translated_arabic_news_07182024_part1.csv",
-    "ILR_CSVs/translated_arabic_news_articles_with_ilr10012024_part1.csv",
-    "ILR_CSVs/translated_arabic_news_articles_with_ilr10012024_part2.csv"
-  ],
-  "chinese": [
-    "ILR_CSVs/chinese_news_articles_with_ilr20241119_part1.csv",
-    "ILR_CSVs/chinese_news_articles_with_ilr20241119_part2.csv",
-    "ILR_CSVs/chinese_news_articles_with_ilr20241119_part3.csv",
-    "ILR_CSVs/chinese_news_articles_with_ilr20241119_part4.csv",
-    "ILR_CSVs/chinese_news_articles_with_ilr20241119_part5.csv",
-    "ILR_CSVs/chinese_news_articles_with_ilr20241119_part6.csv",
-    "ILR_CSVs/chinese_news_articles_with_ilr20241119_part7.csv",
-    "ILR_CSVs/chinese_news_articles_with_ilr20241119_part8.csv",
-    "ILR_CSVs/chinese_news_articles_with_ilr20241119_part9.csv",
-    "ILR_CSVs/chinese_news_articles_with_ilr20241119_part10.csv",
-    "ILR_CSVs/chinese_news_articles_with_ilr20241119_part11.csv"
-  ],
-  "english": [
-    "ILR_CSVs/english_news_articles_with_ilr7182024_part1.csv"
-  ],
-  "french": [
-    "ILR_CSVs/french_news_articles_with_ilr7192024_1.csv",
-    "ILR_CSVs/french_news_articles_with_ilr7192024_2.csv",
-    "ILR_CSVs/french_news_articles_with_ilr7192024_3.csv",
-    "ILR_CSVs/french_news_articles_with_ilr7192024_4.csv",
-    "ILR_CSVs/french_news_articles_with_ilr7192024_5.csv",
-    "ILR_CSVs/french_news_articles_with_ilr7192024_6.csv",
-    "ILR_CSVs/french_news_articles_with_ilr7192024_7.csv",
-    "ILR_CSVs/french_news_articles_with_ilr7192024_8.csv",
-    "ILR_CSVs/french_news_articles_with_ilr7192024_9.csv",
-    "ILR_CSVs/french_news_articles_with_ilr7192024_10.csv",
-    "ILR_CSVs/french_news_articles_with_ilr10012024_1.csv",
-    "ILR_CSVs/french_news_articles_with_ilr10012024_2.csv",
-    "ILR_CSVs/french_news_articles_with_ilr10012024_3.csv",
-    "ILR_CSVs/french_news_articles_with_ilr10012024_4.csv",
-    "ILR_CSVs/french_news_articles_with_ilr10012024_5.csv",
-    "ILR_CSVs/french_news_articles_with_ilr10012024_6.csv",
-    "ILR_CSVs/french_news_articles_with_ilr10012024_7.csv",
-    "ILR_CSVs/french_news_articles_with_ilr10012024_8.csv",
-    "ILR_CSVs/french_news_articles_with_ilr10012024_9.csv",
-    "ILR_CSVs/french_news_articles_with_ilr10012024_10.csv"
-  ],
-  "german": [
-    "ILR_CSVs/german_articles_with_ilr09202024_part1.csv",
-    "ILR_CSVs/german_articles_with_ilr09202024_part2.csv",
-    "ILR_CSVs/german_articles_with_ilr09202024_part3.csv",
-    "ILR_CSVs/german_articles_with_ilr09202024_part4.csv",
-    "ILR_CSVs/german_articles_with_ilr09202024_part5.csv",
-    "ILR_CSVs/german_articles_with_ilr09202024_part6.csv",
-    "ILR_CSVs/german_articles_with_ilr09202024_part7.csv",
-    "ILR_CSVs/german_articles_with_ilr09202024_part8.csv",
-    "ILR_CSVs/german_articles_with_ilr09202024_part9.csv",
-    "ILR_CSVs/german_articles_with_ilr09202024_part10.csv",
-    "ILR_CSVs/translated_german_news09092024_part1.csv",
-    "ILR_CSVs/translated_german_news_part1.csv"
-  ],
   "russian": [
-    "ILR_CSVs/russian_news_articles_with_ilr10012024_part1.csv",
-    "ILR_CSVs/russian_news_articles_with_ilr10012024_part2.csv",
-    "ILR_CSVs/russian_news_articles_with_ilr10012024_part3.csv",
-    "ILR_CSVs/russian_news_articles_with_ilr10012024_part4.csv",
-    "ILR_CSVs/russian_news_articles_with_ilr10012024_part5.csv",
-    "ILR_CSVs/russian_news_articles_with_ilr10012024_part6.csv",
-    "ILR_CSVs/russian_news_articles_with_ilr10012024_part7.csv"
-  ],
-  "spanish": [
-    "ILR_CSVs/spanish_news_articles_with_ilr10012024_part1.csv",
-    "ILR_CSVs/spanish_news_articles_with_ilr10012024_part2.csv",
-    "ILR_CSVs/spanish_news_articles_with_ilr10012024_part3.csv",
-    "ILR_CSVs/spanish_news_articles_with_ilr10012024_part4.csv",
-    "ILR_CSVs/spanish_news_articles_with_ilr10012024_part5.csv",
-    "ILR_CSVs/spanish_news_articles_with_ilr10012024_part6.csv",
-    "ILR_CSVs/spanish_news_articles_with_ilr10012024_part7.csv",
-    "ILR_CSVs/spanish_news_articles_with_ilr7182024_part1.csv",
-    "ILR_CSVs/spanish_news_articles_with_ilr7182024_part2.csv",
-    "ILR_CSVs/spanish_news_articles_with_ilr7192024_part1.csv",
-    "ILR_CSVs/translated_spanish_news_07192024_part1.csv",
-    "ILR_CSVs/translated_spanish_news_07192024_part2.csv",
-    "ILR_CSVs/translated_spanish_news_articles_with_ilr10012024_part1.csv",
-    "ILR_CSVs/translated_spanish_news_articles_with_ilr10012024_part2.csv",
-    "ILR_CSVs/translated_spanish_news_articles_with_ilr10012024_part3.csv",
-    "ILR_CSVs/translated_spanish_news_articles_with_ilr10012024_part4.csv",
-    "ILR_CSVs/translated_spanish_news_articles_with_ilr10012024_part5.csv",
-    "ILR_CSVs/translated_spanish_news_articles_with_ilr10012024_part6.csv",
-    "ILR_CSVs/translated_spanish_news_articles_with_ilr10012024_part7.csv"
+    "ILR_CSVs/russian_videos_with_ilr12112024.csv"
   ],
   "turkish": [
-    "ILR_CSVs/turkish_news_part1_part1.csv",
-    "ILR_CSVs/turkish_news_part1_part2.csv"
+    "ILR_CSVs/turkish_videos_with_ilr12112024.csv"
   ]
 }
