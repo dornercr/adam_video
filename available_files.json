@@ -1,10 +1,11 @@
 
 {
+  "arabic": [
+    "ILR_CSVs/cleaned_arabic_meetings_youtube_videos_with_transcript_with_ilr.csv",
+    "ILR_CSVs/cleaned_arabic_socialize_youtube_videos_with_transcript_with_ilr.csv"
+  ],
   "russian": [
     "ILR_CSVs/russian_news_articles_with_ilr12192024.csv",
     "ILR_CSVs/russian_socialize_videos_with_ilr12192024.csv"
-  ],
-  "arabic": [
-    "ILR_CSVs/cleaned_arabic_meetings_youtube_videos_with_transcript_with_ilr.csv"
   ]
 }
