@@ -7,5 +7,8 @@
   "russian": [
     "ILR_CSVs/russian_news_articles_with_ilr12192024.csv",
     "ILR_CSVs/russian_socialize_videos_with_ilr12192024.csv"
+  ],
+  "french": [
+    "ILR_CSVs/french_socialize_youtube_videos_jan_27_2025.csv"
   ]
 }
