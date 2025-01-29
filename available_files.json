@@ -10,5 +10,8 @@
   ],
   "french": [
     "ILR_CSVs/french_socialize_youtube_videos_jan_27_2025.csv"
+  ],
+  "Mandarin": [
+    "ILR_CSVs/cleaned_mandarin_socialize_youtube_videos_with_transcript_with_ilr_jan_27_2025.csv"
   ]
 }
