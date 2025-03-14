@@ -2,7 +2,11 @@
 {
   "arabic": [
     "ILR_CSVs/cleaned_arabic_meetings_youtube_videos_with_transcript_with_ilr.csv",
-    "ILR_CSVs/cleaned_arabic_socialize_youtube_videos_with_transcript_with_ilr.csv"
+    "ILR_CSVs/cleaned_arabic_socialize_youtube_videos_with_transcript_with_ilr.csv",
+    "ILR_CSVs/levant_output_with_ilr_3_12_25.csv",
+    "ILR_CSVs/egypt_arabic_transcripts_3_13_25_with_transcript.csv",
+    "ILR_CSVs/gulf_arabic_transcripts_3_13_25_with_transcript.csv"
+
   ],
   "russian": [
     "ILR_CSVs/russian_news_articles_with_ilr12192024.csv",
