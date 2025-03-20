@@ -1,0 +1,28 @@
+
+{
+  "arabic": [
+    "ILR_CSVs/cleaned_arabic_meetings_youtube_videos_with_transcript_with_ilr_cleaned.csv",
+    "ILR_CSVs/cleaned_arabic_socialize_youtube_videos_with_transcript_with_ilr_cleaned.csv",
+    "ILR_CSVs/levant_output_with_ilr_3_12_25_cleaned.csv",
+    "ILR_CSVs/egypt_arabic_transcripts_3_13_25_with_transcript_cleaned.csv",
+    "ILR_CSVs/gulf_arabic_transcripts_3_13_25_with_transcript_cleaned.csv",
+    "ILR_CSVs/maghrebi_arabic_transcripts_3_13_25_with_ilr_cleaned.csv"
+
+  ],
+  "russian": [
+    "ILR_CSVs/russian_news_articles_with_ilr12192024.csv",
+    "ILR_CSVs/russian_socialize_videos_with_ilr12192024.csv"
+  ],
+  "french": [
+    "ILR_CSVs/french_socialize_youtube_videos_jan_27_2025.csv"
+  ],
+  "spanish": [
+    "ILR_CSVs/spanish_youtube_3_19_25_with_ilr_split1a.csv",
+    "ILR_CSVs/spanish_youtube_3_19_25_with_ilr_split2a.csv",
+    "ILR_CSVs/spanish_youtube_3_19_25_with_ilr_split1b.csv",
+    "ILR_CSVs/spanish_youtube_3_19_25_with_ilr_split2b.csv"
+  ],
+  "Mandarin": [
+    "ILR_CSVs/cleaned_mandarin_socialize_youtube_videos_with_transcript_with_ilr_jan_27_2025.csv"
+  ]
+}
